@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -32,6 +33,8 @@ func requestToken(tokenURL, payload string) (*oauth2.Token, error) {
 	}
 
 	req.Header.Add("content-type", "application/x-www-form-urlencoded")
+	val, _ := url.ParseQuery(payload)
+	req.SetBasicAuth(val.Get("client_id"), "")
 
 	cli.LogDebugRequest(req)
 
