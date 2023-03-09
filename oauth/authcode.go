@@ -223,7 +223,11 @@ func (ac *AuthorizationCodeTokenSource) Token() (*oauth2.Token, error) {
 	aq.Set("scope", strings.Join(ac.Scopes, " "))
 	if ac.EndpointParams != nil {
 		for k, v := range *ac.EndpointParams {
-			aq.Set(k, v[0])
+			key := k
+			if key == "orglink" {
+				key = "orgLink"
+			}
+			aq.Set(key, v[0])
 		}
 	}
 	authorizeURL.RawQuery = aq.Encode()
